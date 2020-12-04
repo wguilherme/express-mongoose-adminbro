@@ -1,0 +1,7 @@
+node_modules
+tmp/uploads
+.env
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+.pnp.*
