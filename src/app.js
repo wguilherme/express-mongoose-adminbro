@@ -32,7 +32,18 @@ app.use(customerRouter);
 app.use(petRouter);
 app.use(rootRouter);
 
-const adminBro = new AdminBro({resources: [Item, User, Pet],rootPath: '/admin',})
+const adminBro = new AdminBro({resources: [
+    Item,
+    {
+        resource: User,
+        options: {
+            properties: {
+                password: {isVisible: false}
+            }
+        }
+    },
+    Pet
+],rootPath: '/admin',})
 const router = AdminBroExpress.buildRouter(adminBro)
 
 app.use(adminBro.options.rootPath, router)
