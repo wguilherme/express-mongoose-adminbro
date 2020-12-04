@@ -38,7 +38,8 @@ const adminBro = new AdminBro({resources: [
         resource: User,
         options: {
             properties: {
-                password: {isVisible: false}
+                password: {isVisible: false},
+                _id: {isVisible: false},
             }
         }
     },
