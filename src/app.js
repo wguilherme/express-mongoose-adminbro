@@ -6,10 +6,22 @@ import customerRouter from "./routers/customer";
 import petRouter from "./routers/pet";
 import rootRouter from "./routers/root";
 
+const AdminBro = require('admin-bro')
+const AdminBroExpress = require('@admin-bro/express')
+const AdminBroMongoose = require('@admin-bro/mongoose')
+AdminBro.registerAdapter(AdminBroMongoose)
+
+
+// get some models
+import Item from "./models/Item"
+import User from "./models/User"
+import Pet from "./models/Pet"
+
 require("./db/db");
+const mongoosedb = require("./db/db");
+
 
 const port = process.env.PORT;
-
 const app = express();
 
 app.use(express.json());
@@ -20,19 +32,10 @@ app.use(customerRouter);
 app.use(petRouter);
 app.use(rootRouter);
 
-// admin bro instance
-const AdminBro = require('admin-bro')
-const AdminBroExpress = require('@admin-bro/express')
-
-const adminBro = new AdminBro({
-    databases: [],
-    rootPath: '/admin',
-  })
-
+const adminBro = new AdminBro({resources: [Item, User, Pet],rootPath: '/admin',})
 const router = AdminBroExpress.buildRouter(adminBro)
+
 app.use(adminBro.options.rootPath, router)
 
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
+app.listen(port, () => {console.log(`Server running on port ${port}`);});
